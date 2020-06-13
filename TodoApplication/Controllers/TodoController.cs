@@ -1,23 +1,34 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using TodoApplication.Models;
+using TodoApplication.Services;
 
 namespace TodoApplication.Controllers
 {
     public class TodoController : Controller
     {
-        public IActionResult Index()
+        private readonly ITodoItemService service;
+
+        public TodoController(ITodoItemService _service) //constructor based dependency injection (constructor injection)
+        {
+            service = _service;
+        }
+
+        public async Task<IActionResult> IndexAsync()
         {
             // Database'den değerleri getir
+            //IEnumerable<TodoItem> items = service.GetIncompleteItemsAsync().Result;
+            IEnumerable<TodoItem> items = await service.GetIncompleteItemsAsync();
 
             // Gelen değerleri yeni modele koy
-
-            // Modeli Görünyüye ekle ve sayfayı göster.
+            TodoViewModel vm = new TodoViewModel(); //design decision
+            vm.Items = items;
 
             ViewBag.Title = "Yapılacaklar Listesini Yönet";
-            return View();
+
+            // Modeli Görünyüye ekle ve sayfayı göster.
+            return View(vm);
         }
     }
 }
