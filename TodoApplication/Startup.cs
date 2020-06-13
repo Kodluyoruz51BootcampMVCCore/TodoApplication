@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TodoApplication.Data;
 using TodoApplication.Services;
 using TodoApplication.Utilities.Loggers;
 
@@ -26,6 +28,8 @@ namespace TodoApplication
             services.AddSingleton<ITodoItemService, FakeTodoItemService>();
             services.AddSingleton<IKodluyoruzLogger, KodluyoruzLogger>();
 
+            services.AddDbContext<TodoDbContext>(options =>
+    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
