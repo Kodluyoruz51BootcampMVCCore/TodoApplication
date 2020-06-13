@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TodoApplication.Loggers;
 using TodoApplication.Models;
 using TodoApplication.Services;
+using TodoApplication.Utilities.Loggers;
 
 namespace TodoApplication.Controllers
 {

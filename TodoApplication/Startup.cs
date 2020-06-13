@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TodoApplication.Loggers;
-using TodoApplication.Models;
 using TodoApplication.Services;
+using TodoApplication.Utilities.Loggers;
 
 namespace TodoApplication
 {

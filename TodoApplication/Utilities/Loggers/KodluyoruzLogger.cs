@@ -4,7 +4,7 @@ using Serilog.Events;
 using System;
 using System.Collections.Generic;
 
-namespace TodoApplication.Loggers
+namespace TodoApplication.Utilities.Loggers
 {
     public class KodluyoruzLogger : IKodluyoruzLogger
     {
