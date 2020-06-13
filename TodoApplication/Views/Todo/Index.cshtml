@@ -6,16 +6,35 @@
 
     <h1>@ViewData["Title"]</h1>
 
-<div class="panel panel-default todo-panel">
-    <div class="panel-heading">@ViewData["Title"]</div>
+    <div class="panel panel-default todo-panel">
+        <div class="panel-heading">@ViewData["Title"]</div>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <td>&#x2714;</td>
-                <td>Item</td>
-                <td>Due</td>
-            </tr>
-        </thead>
-    </table>
-</div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>&#x2714;</td>
+                    <td>Item</td>
+                    <td>Due</td>
+                </tr>
+            </thead>
+
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.IsDone</td>
+                    <td>@item.Title</td>
+                    <td>@item.DueAt</td>
+                </tr>
+            }
+
+        </table>
+
+        <div class="panel-footer add-item-form"> @*partial view'a dönmeli*@
+            <form>
+                <div id="add-item-error" class="text-danger"></div>
+                <label for="add-item-title">Yeni yapılacak ekle:</label>
+                <input id="add-item-title">
+                <button type="button" id="add-item-button">Ekle</button>
+            </form>
+        </div>
+    </div>
