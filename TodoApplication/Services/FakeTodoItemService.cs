@@ -7,6 +7,29 @@ namespace TodoApplication.Services
 {
     public class FakeTodoItemService : ITodoItemService
     {
+        private readonly TodoDbContext _context;
+
+        public FakeTodoItemService(TodoDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<bool> AddItemAsync(TodoItem item)
+        {
+            var entity = new TodoItem
+            {
+                Id = Guid.NewGuid(),
+                IsDone = false,
+                Title = "Fake service title",
+                DueAt = DateTimeOffset.Now.AddDays(3)
+            };
+
+            _context.TodoItems.Add(entity);
+
+            var saveResult = await _context.SaveChangesAsync();
+            return saveResult == 1;
+        }
+
         public Task<IEnumerable<TodoItem>> GetIncompleteItemsAsync()
         {
             IEnumerable<TodoItem> items = new[]

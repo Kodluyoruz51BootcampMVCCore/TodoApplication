@@ -24,6 +24,7 @@ namespace TodoApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //TODO : services.AddMvcCore(); //.AddDataAnnotations();
 
             services.AddDbContext<TodoDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));

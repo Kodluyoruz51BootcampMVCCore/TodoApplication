@@ -10,20 +10,21 @@ namespace TodoApplication.Controllers
 {
     public class TodoController : Controller
     {
-        private readonly ITodoItemService service;
-        private readonly IKodluyoruzLogger logger;
+        private readonly ITodoItemService _service;
+        private readonly IKodluyoruzLogger _logger;
 
-        public TodoController(ITodoItemService _service, IKodluyoruzLogger _logger) //constructor based dependency injection (constructor injection)
+        public TodoController(ITodoItemService service, IKodluyoruzLogger logger) //constructor based dependency injection (constructor injection)
         {
-            service = _service;
-            logger = _logger;
+            _service = service;
+            _logger = logger;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        [HttpGet] //Attribute
+        public async Task<IActionResult> Index()
         {
             // Database'den değerleri getir
             //IEnumerable<TodoItem> items = service.GetIncompleteItemsAsync().Result;
-            IEnumerable<TodoItem> items = await service.GetIncompleteItemsAsync();
+            IEnumerable<TodoItem> items = await _service.GetIncompleteItemsAsync();
 
             // Gelen değerleri yeni modele koy
             TodoViewModel vm = new TodoViewModel(); //design decision
@@ -34,6 +35,25 @@ namespace TodoApplication.Controllers
             // Modeli Görünyüye ekle ve sayfayı göster.
             //logger.Write();
             return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddItem(TodoItem item)
+        {
+            bool x = TryValidateModel(item);
+
+            if (!ModelState.IsValid) //if(TryValidateModel(item))
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _service.AddItemAsync(item); //TODO: Geri dönen bilgiye göre yeşil renkte onay mesajı gösterilmesi.
+            if (!result)
+            {
+                return BadRequest(new { error = "Eklenemedi." });
+            }
+
+            return Ok();
         }
     }
 }
