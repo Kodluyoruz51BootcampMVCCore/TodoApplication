@@ -22,7 +22,9 @@
             @foreach (var item in Model.Items)
             {
                 <tr>
-                    <td>@item.IsDone</td>
+                    <td>
+                        <input type="checkbox" name="@item.Id" value="true" class="done-checkbox">
+                    </td>
                     <td>@item.Title</td>
                     <td>@item.DueAt.Humanize()</td>
                 </tr>
