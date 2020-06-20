@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200620110604_TitleRequired.cs" />
+    <Compile Remove="Migrations\20200620110604_TitleRequired.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="aspnet-todoapplication.db-shm" />
+    <None Remove="aspnet-todoapplication.db-wal" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Humanizer.Core" Version="2.8.26" />
     <PackageReference Include="Humanizer.Core.tr" Version="2.8.26" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
