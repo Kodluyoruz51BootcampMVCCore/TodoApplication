@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TodoApplication.Models;
+using TodoApplication.Data;
 
 namespace TodoApplication.Services
 {

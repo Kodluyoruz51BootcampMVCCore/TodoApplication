@@ -7,3 +7,6 @@
 /TodoApplication/bin/Debug/netcoreapp3.1
 /TodoApplication/obj
 /TodoApplication/TodoApplication.csproj.user
+/TodoApplication/.vs/TodoApplication/DesignTimeBuild
+*.db-shm
+*.db-wal
