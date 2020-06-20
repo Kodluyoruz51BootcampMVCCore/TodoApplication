@@ -13,7 +13,7 @@ function addItem() {
     $('#add-item-error').hide();
     var newTitle = $('#add-item-title').val();
 
-    $.post('/Todo/AddItem', { titlxe: newTitle }, function () {
+    $.post('/Todo/AddItem', { title: newTitle }, function () {
         window.location = '/Todo'; //location.reload(true);
     })
         .fail(function (data) {
