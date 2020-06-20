@@ -1,30 +1,26 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TodoApplication.Models;
+using TodoApplication.Data;
 
 namespace TodoApplication.Services
 {
     public class RealTodoItemService : ITodoItemService
     {
-        public Task<IEnumerable<TodoItem>> GetIncompleteItemsAsync()
-        {
-            IEnumerable<TodoItem> items = new[]
-            {
-                new TodoItem //object initializer
-                {
-                    Title = "test",
-                    DueAt = DateTimeOffset.Now.AddDays(1)
-                },
-                new TodoItem
-                {
-                    Title = "test2",
-                    DueAt = DateTimeOffset.Now.AddDays(2)
-                }
-            };
+        //TODO: DBContext bağımlılığı giderilecek. Teknik Borç (Technical Debt) (TAMAMLANDI)
+        private readonly TodoDbContext _context;
 
-            return Task.FromResult(items);
+        public RealTodoItemService(TodoDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<TodoItem>> GetIncompleteItemsAsync()
+        {
+            var items = await _context.TodoItems.Where(x => x.IsDone == false).ToArrayAsync();
+
+            return items;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace TodoApplication.Models
+namespace TodoApplication.Data
 {
     //ORM : Object Relational Mapping
 
