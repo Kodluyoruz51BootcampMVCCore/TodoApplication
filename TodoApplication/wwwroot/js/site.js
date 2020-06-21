@@ -14,10 +14,14 @@ $(document).ready(function () {
 
 function addItem() {
     $('#add-item-error').hide();
+    $('#add-item-successful').hide();
+
     var newTitle = $('#add-item-title').val();
 
     $.post('/Todo/AddItem', { title: newTitle }, function () {
         window.location = '/Todo'; //location.reload(true);
+        $('#add-item-successful').text("Ekleme başarılı");
+        $('#add-item-successful').show();
     })
         .fail(function (data) {
             if (data && data.responseJSON) {
@@ -34,5 +38,6 @@ function markCompleted(checkbox) {
     $.post('/Todo/MarkDone', { id: checkbox.name }, function () {
         var row = checkbox.parentElement.parentElement;
         $(row).addClass('done');
+        //window.location = '/Todo';
     });
 }

@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace TodoApplication.Data
 {
-    public class TodoDbContext : DbContext
+    public class TodoDbContext : IdentityDbContext
     {
         public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options) { }
 
