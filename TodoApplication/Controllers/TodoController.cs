@@ -5,6 +5,7 @@ using TodoApplication.Models;
 using TodoApplication.Services;
 using TodoApplication.Utilities.Loggers;
 using TodoApplication.Data;
+using System;
 
 namespace TodoApplication.Controllers
 {
@@ -52,6 +53,18 @@ namespace TodoApplication.Controllers
             {
                 return BadRequest(new { error = "Eklenemedi." });
             }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkDone(Guid id)
+        {
+            if (id == Guid.Empty) return BadRequest();
+
+            var successful = await _service.MarkDoneAsync(id);
+
+            if (!successful) return BadRequest();
 
             return Ok();
         }
