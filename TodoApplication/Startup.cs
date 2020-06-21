@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -24,16 +25,32 @@ namespace TodoApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<TodoDbContext>();
+                .AddEntityFrameworkStores<TodoDbContext>()
+                .AddSignInManager()
+                .AddDefaultUI();
+
+            services.AddRazorPages();
+
+            services.AddControllersWithViews();
 
             services.AddDbContext<TodoDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllersWithViews();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login/";
+                options.AccessDeniedPath = "/Identity/Account/Forbidden/";
+                options.LogoutPath = "/Identity/Account/Logout/";
+            });
+
             //TODO : services.AddMvcCore(); //.AddDataAnnotations();
 
             //Dependencies
-            services.AddScoped<ITodoItemService,RealTodoItemService>();
+            services.AddScoped<ITodoItemService, RealTodoItemService>();
             services.AddSingleton<IKodluyoruzLogger, KodluyoruzLogger>();
         }
 
@@ -48,6 +65,7 @@ namespace TodoApplication
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -57,6 +75,10 @@ namespace TodoApplication
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    name: "IdentitySection",
+                    areaName: "Identity",
+                    pattern: "Identity/{controller=Account}/{action=Login}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Todo}/{action=Index}/{id?}");
