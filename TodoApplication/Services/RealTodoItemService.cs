@@ -24,7 +24,8 @@ namespace TodoApplication.Services
                 Id = Guid.NewGuid(),
                 IsDone = false,
                 Title = item.Title,
-                DueAt = DateTimeOffset.Now.AddDays(3) //TODO: view'a eklenecek
+                //DueAt = DateTimeOffset.Now.AddDays(5) //TODO: view'a eklenecek (TAMAMLANDI)
+                DueAt = DateTimeOffset.Now  
             };
 
             _context.TodoItems.Add(entity);
@@ -38,6 +39,18 @@ namespace TodoApplication.Services
             var items = await _context.TodoItems.Where(x => x.IsDone == false).ToListAsync();
 
             return items;
+        }
+
+        public async Task<bool> MarkDoneAsync(Guid id)
+        {
+            var item = await _context.TodoItems.Where(x => x.Id == id).SingleOrDefaultAsync();
+
+            if (item == null) return false;
+
+            item.IsDone = true;
+
+            var saveResult = await _context.SaveChangesAsync();
+            return saveResult == 1; // One entity should have been updated
         }
     }
 }

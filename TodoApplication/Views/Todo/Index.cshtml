@@ -22,9 +22,11 @@
             @foreach (var item in Model.Items)
             {
                 <tr>
-                    <td>@item.IsDone</td>
+                    <td>
+                        <input type="checkbox" name="@item.Id" value="true" class="done-checkbox">
+                    </td>
                     <td>@item.Title</td>
-                    <td>@item.DueAt.Humanize()</td>
+                    <td>@item.DueAt.Humanize(DateTimeOffset.Now)</td>
                 </tr>
             }
 
@@ -33,12 +35,13 @@
         <div class="add-item-form">
             @*TODO: partial view'a dönmeli*@
             <form>
-                <div id="add-item-error" class="text-danger"></div>
-                <div id="add-item-successful" class="text-info"></div>
-
+                <div id="add-item-error" class="alert alert-danger"></div>
+                <div id="add-item-successful" class="alert alert-success"></div>
+                
                 <label for="add-item-title">Yeni yapılacak ekle:</label>
                 <input id="add-item-title">
                 <button type="button" id="add-item-button">Ekle</button>
+ 
             </form>
         </div>
     </div>

@@ -5,6 +5,7 @@ using TodoApplication.Models;
 using TodoApplication.Services;
 using TodoApplication.Utilities.Loggers;
 using TodoApplication.Data;
+using System;
 
 namespace TodoApplication.Controllers
 {
@@ -41,17 +42,29 @@ namespace TodoApplication.Controllers
         public async Task<IActionResult> AddItem(TodoItem item)
         {
             bool x = TryValidateModel(item);
+            TempData["Success"] = "Added Successfully!";    
 
             if (!ModelState.IsValid) //if(TryValidateModel(item))
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _service.AddItemAsync(item); //TODO: Geri dönen bilgiye göre yeşil renkte onay mesajı gösterilmesi.
+            var result = await _service.AddItemAsync(item); //TODO: Geri dönen bilgiye göre yeşil renkte onay mesajı gösterilmesi.(TAMAMLANDI)
             if (!result)
             {
                 return BadRequest(new { error = "Eklenemedi." });
             }
+            return Ok(new { success = "Eklendi." });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkDone(Guid id)
+        {
+            if (id == Guid.Empty) return BadRequest();
+
+            var successful = await _service.MarkDoneAsync(id);
+
+            if (!successful) return BadRequest();
 
             return Ok();
         }
