@@ -68,5 +68,17 @@ namespace TodoApplication.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkDone(Guid id)
+        {
+            if (id == Guid.Empty) return BadRequest();
+
+            var successful = await _service.MarkDoneAsync(id);
+
+            if (!successful) return BadRequest();
+
+            return Ok();
+        }
     }
 }

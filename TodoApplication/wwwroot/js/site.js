@@ -22,16 +22,7 @@ function addItem() {
     var success="Eklendi";
 
     $.post('/Todo/AddItem', { title: newTitle }, function () {
-            
-        $('#add-item-successful').text(success);
-        $('#add-item-successful').show();
-  
-        window.setTimeout(function(){
-            $('#add-item-successful').hide();
-            location.reload(true);
-            $('#add-item-title').val("");
-        },1000);        
-        
+        window.location = '/Todo'; //location.reload(true);
     })
         .fail(function (data) {
             if (data && data.responseJSON) {
@@ -40,8 +31,6 @@ function addItem() {
                 $('#add-item-error').show();
             }
         });
-
-         
 }
 
 function markCompleted(checkbox) {
@@ -49,8 +38,6 @@ function markCompleted(checkbox) {
 
     $.post('/Todo/MarkDone', { id: checkbox.name }, function () {
         var row = checkbox.parentElement.parentElement;
-        $(row).addClass('done'); 
-        location.reload();
+        $(row).addClass('done');
     });
-    //window.location.reload(); // Checkbox tiklandıktan sonra sayfa otomatık yenilenip true donen degeri göstermıyecek
 }
