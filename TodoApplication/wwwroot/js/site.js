@@ -3,8 +3,12 @@
 
 // Write your JavaScript code.
 $(document).ready(function () {
+    
+    $('#add-item-error').hide();
+    $('#add-item-successful').hide();
 
     //TODO: JQUERY iptal edilecek
+    
     $('#add-item-button').on('click', addItem);
     $('.done-checkbox').on('click', function (e) {
         markCompleted(e.target);
@@ -13,8 +17,9 @@ $(document).ready(function () {
 });
 
 function addItem() {
-    $('#add-item-error').hide();
+    
     var newTitle = $('#add-item-title').val();
+    var success="Eklendi";
 
     $.post('/Todo/AddItem', { title: newTitle }, function () {
         window.location = '/Todo'; //location.reload(true);

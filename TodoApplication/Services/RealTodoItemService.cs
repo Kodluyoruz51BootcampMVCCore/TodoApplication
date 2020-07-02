@@ -24,7 +24,8 @@ namespace TodoApplication.Services
                 Id = Guid.NewGuid(),
                 IsDone = false,
                 Title = item.Title,
-                DueAt = DateTimeOffset.Now.AddDays(3) //TODO: view'a eklenecek
+                //DueAt = DateTimeOffset.Now.AddDays(5) //TODO: view'a eklenecek (TAMAMLANDI)
+                DueAt = DateTimeOffset.Now  
             };
 
             _context.TodoItems.Add(entity);
